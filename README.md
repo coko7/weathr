@@ -210,6 +210,9 @@ auto = false
 # Hide the location name in the UI
 hide = false
 
+# Display the "feels like" temperature info alongside the actual temperature.
+use_apparent_temperature = false
+
 # How to display the location in the HUD: "coordinates" | "city" | "mixed"
 display = "mixed"
 
@@ -303,6 +306,9 @@ weathr --hide-location
 
 # Hide status HUD
 weathr --hide-hud
+
+# Show feels-like temperature alongside actual temperature
+weathr --use-apparent-temperature
 
 # Run silently (suppress non-error output)
 weathr --silent
