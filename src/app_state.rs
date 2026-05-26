@@ -16,7 +16,7 @@ pub struct AppState {
     pub city_name: Option<String>,
     pub location_display: LocationDisplay,
     pub hide_location: bool,
-    pub show_apparent_temperature: bool,
+    pub use_apparent_temperature: bool,
     pub units: WeatherUnits,
 }
 
@@ -26,7 +26,7 @@ impl AppState {
         city_name: Option<String>,
         location_display: LocationDisplay,
         hide_location: bool,
-        show_apparent_temperature: bool,
+        use_apparent_temperature: bool,
         units: WeatherUnits,
     ) -> Self {
         Self {
@@ -40,7 +40,7 @@ impl AppState {
             city_name,
             location_display,
             hide_location,
-            show_apparent_temperature,
+            use_apparent_temperature,
             units,
         }
     }
@@ -128,7 +128,7 @@ impl AppState {
         };
 
         let apparent_temp_str = if let Some(ref weather) = self.current_weather {
-            if self.show_apparent_temperature {
+            if self.use_apparent_temperature {
                 let (apparent_temp, apparent_temp_unit) =
                     format_temperature(weather.apparent_temperature, self.units.temperature);
                 format!(" (~{:.1}{})", apparent_temp, apparent_temp_unit)
