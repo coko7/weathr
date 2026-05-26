@@ -193,7 +193,7 @@ impl WeatherProvider for MetOfficeProvider {
                 current_weather.screen_temperature,
                 "screenTemperature",
             )?,
-            apparent_temperature: current_weather.normalize_temperature(
+            feels_like_temperature: current_weather.normalize_temperature(
                 units,
                 &data.parameters,
                 current_weather.feels_like_temperature,

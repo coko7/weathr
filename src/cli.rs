@@ -60,7 +60,7 @@ pub struct Cli {
     pub hide_hud: bool,
 
     #[arg(long, help = "Use apparent temperature alongside actual temperature")]
-    pub use_apparent_temperature: bool,
+    pub use_feels_like_temperature: bool,
 
     #[arg(
         long,

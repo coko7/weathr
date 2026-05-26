@@ -207,7 +207,7 @@ pub enum PrecipitationUnit {
 pub struct WeatherData {
     pub condition: WeatherCondition,
     pub temperature: f64,
-    pub apparent_temperature: f64,
+    pub feels_like_temperature: f64,
     pub precipitation: f64,
     pub wind_speed: f64,
     pub wind_direction: f64,

@@ -261,7 +261,7 @@ mod tests {
         state.current_weather = Some(WeatherData {
             condition: WeatherCondition::Clear,
             temperature: 20.0,
-            apparent_temperature: 22.0,
+            feels_like_temperature: 22.0,
             precipitation: 0.0,
             wind_speed: 5.0,
             wind_direction: 0.0,
@@ -311,7 +311,7 @@ mod tests {
         state.current_weather = Some(WeatherData {
             condition: WeatherCondition::Clear,
             temperature: 20.0,
-            apparent_temperature: 22.0,
+            feels_like_temperature: 22.0,
             precipitation: 0.0,
             wind_speed: 5.0,
             wind_direction: 0.0,

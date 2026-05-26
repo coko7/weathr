@@ -148,7 +148,7 @@ impl WeatherProvider for OpenMeteoProvider {
         Ok(WeatherProviderResponse {
             weather_code: data.current.weather_code,
             temperature: normalize_temperature(data.current.temperature_2m, units.temperature),
-            apparent_temperature: normalize_temperature(
+            feels_like_temperature: normalize_temperature(
                 data.current.apparent_temperature,
                 units.temperature,
             ),

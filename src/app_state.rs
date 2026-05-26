@@ -16,7 +16,7 @@ pub struct AppState {
     pub city_name: Option<String>,
     pub location_display: LocationDisplay,
     pub hide_location: bool,
-    pub use_apparent_temperature: bool,
+    pub use_feels_like_temperature: bool,
     pub units: WeatherUnits,
 }
 
@@ -26,7 +26,7 @@ impl AppState {
         city_name: Option<String>,
         location_display: LocationDisplay,
         hide_location: bool,
-        use_apparent_temperature: bool,
+        use_feels_like_temperature: bool,
         units: WeatherUnits,
     ) -> Self {
         Self {
@@ -40,7 +40,7 @@ impl AppState {
             city_name,
             location_display,
             hide_location,
-            use_apparent_temperature,
+            use_feels_like_temperature,
             units,
         }
     }
@@ -128,9 +128,9 @@ impl AppState {
         };
 
         let apparent_temp_str = if let Some(ref weather) = self.current_weather {
-            if self.use_apparent_temperature {
+            if self.use_feels_like_temperature {
                 let (apparent_temp, apparent_temp_unit) =
-                    format_temperature(weather.apparent_temperature, self.units.temperature);
+                    format_temperature(weather.feels_like_temperature, self.units.temperature);
                 format!(" (~{:.1}{})", apparent_temp, apparent_temp_unit)
             } else {
                 String::new()
@@ -272,7 +272,7 @@ mod tests {
         let weather = WeatherData {
             condition: WeatherCondition::Clear,
             temperature: 20.0,
-            apparent_temperature: 22.0,
+            feels_like_temperature: 22.0,
             precipitation: 0.0,
             wind_speed: 10.0,
             wind_direction: 0.0,
@@ -433,11 +433,18 @@ mod tests {
             wind_speed: WindSpeedUnit::Kmh,
             precipitation: PrecipitationUnit::Mm,
         };
-        let mut app = AppState::new(location, None, LocationDisplay::Coordinates, true, show, units);
+        let mut app = AppState::new(
+            location,
+            None,
+            LocationDisplay::Coordinates,
+            true,
+            show,
+            units,
+        );
         let weather = WeatherData {
             condition: WeatherCondition::Clear,
             temperature: 20.0,
-            apparent_temperature: 22.0,
+            feels_like_temperature: 22.0,
             precipitation: 0.0,
             wind_speed: 10.0,
             wind_direction: 0.0,
@@ -451,10 +458,10 @@ mod tests {
     }
 
     #[test]
-    fn test_apparent_temperature_shown_in_celsius() {
+    fn test_feels_like_temperature_shown_in_celsius() {
         let mut app = make_app_with_apparent_temp(true, TemperatureUnit::Celsius);
         app.update_cached_info();
-        // apparent_temperature is 22.0°C — expect "(~22.0°C)" in the HUD
+        // feels_like_temperature is 22.0°C — expect "(~22.0°C)" in the HUD
         assert!(
             app.cached_weather_info.contains("(~22.0°C)"),
             "expected '(~22.0°C)' in: {}",
@@ -463,7 +470,7 @@ mod tests {
     }
 
     #[test]
-    fn test_apparent_temperature_hidden_when_disabled() {
+    fn test_feels_like_temperature_hidden_when_disabled() {
         let mut app = make_app_with_apparent_temp(false, TemperatureUnit::Celsius);
         app.update_cached_info();
         assert!(
@@ -474,7 +481,7 @@ mod tests {
     }
 
     #[test]
-    fn test_apparent_temperature_converted_to_fahrenheit() {
+    fn test_feels_like_temperature_converted_to_fahrenheit() {
         let mut app = make_app_with_apparent_temp(true, TemperatureUnit::Fahrenheit);
         app.update_cached_info();
         // 22.0°C → 22.0 * 9/5 + 32 = 71.6°F

@@ -107,7 +107,7 @@ fn generate_offline_weather(rng: &mut impl rand::Rng) -> WeatherData {
     WeatherData {
         condition,
         temperature: rng.random_range(10.0..25.0),
-        apparent_temperature: rng.random_range(8.0..27.00),
+        feels_like_temperature: rng.random_range(8.0..27.00),
         precipitation: if condition.is_raining() {
             rng.random_range(1.0..5.0)
         } else {
@@ -155,7 +155,7 @@ impl App {
             config.location.city.clone(),
             config.location.display,
             config.location.hide,
-            config.location.use_apparent_temperature,
+            config.use_feels_like_temperature,
             config.units,
         );
         let mut animations = AnimationManager::new(term_width, term_height, show_leaves);
@@ -180,7 +180,7 @@ impl App {
             let weather = WeatherData {
                 condition: simulated_condition,
                 temperature: 20.0,
-                apparent_temperature: 22.0,
+                feels_like_temperature: 22.0,
                 precipitation: if simulated_condition.is_raining() {
                     2.5
                 } else {
