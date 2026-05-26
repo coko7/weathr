@@ -84,6 +84,9 @@ async fn main() -> io::Result<()> {
     if cli.hide_location {
         config.location.hide = true;
     }
+    if cli.use_apparent_temperature {
+        config.location.use_apparent_temperature = true;
+    }
     if cli.hide_hud {
         config.hide_hud = true;
     }

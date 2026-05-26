@@ -62,6 +62,8 @@ pub struct Location {
     pub city: Option<String>,
     #[serde(default)]
     pub display: LocationDisplay,
+    #[serde(default)]
+    pub use_apparent_temperature: bool,
     #[serde(default = "default_city_name_language")]
     pub city_name_language: String,
 }
@@ -87,6 +89,7 @@ impl Default for Location {
             hide: false,
             city: None,
             display: LocationDisplay::default(),
+            use_apparent_temperature: false,
             city_name_language: default_city_name_language(),
         }
     }
@@ -360,6 +363,7 @@ longitude = 0.0
                 hide: false,
                 city: None,
                 display: LocationDisplay::default(),
+                use_apparent_temperature: false,
                 city_name_language: "auto".to_string(),
             },
             hide_hud: false,
@@ -383,6 +387,7 @@ longitude = 0.0
                 hide: false,
                 city: None,
                 display: LocationDisplay::default(),
+                use_apparent_temperature: false,
                 city_name_language: "auto".to_string(),
             },
             hide_hud: false,
@@ -406,6 +411,7 @@ longitude = 0.0
                 hide: false,
                 city: None,
                 display: LocationDisplay::default(),
+                use_apparent_temperature: false,
                 city_name_language: "auto".to_string(),
             },
             hide_hud: false,
@@ -429,6 +435,7 @@ longitude = 0.0
                 hide: false,
                 city: None,
                 display: LocationDisplay::default(),
+                use_apparent_temperature: false,
                 city_name_language: "auto".to_string(),
             },
             hide_hud: false,
@@ -452,6 +459,7 @@ longitude = 0.0
                 hide: false,
                 city: None,
                 display: LocationDisplay::default(),
+                use_apparent_temperature: false,
                 city_name_language: "auto".to_string(),
             },
             hide_hud: false,

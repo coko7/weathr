@@ -16,6 +16,7 @@ pub struct AppState {
     pub city_name: Option<String>,
     pub location_display: LocationDisplay,
     pub hide_location: bool,
+    pub show_apparent_temperature: bool,
     pub units: WeatherUnits,
 }
 
@@ -25,6 +26,7 @@ impl AppState {
         city_name: Option<String>,
         location_display: LocationDisplay,
         hide_location: bool,
+        show_apparent_temperature: bool,
         units: WeatherUnits,
     ) -> Self {
         Self {
@@ -38,6 +40,7 @@ impl AppState {
             city_name,
             location_display,
             hide_location,
+            show_apparent_temperature,
             units,
         }
     }
@@ -124,6 +127,18 @@ impl AppState {
             format!(" | Location: {}", label)
         };
 
+        let apparent_temp_str = if let Some(ref weather) = self.current_weather {
+            if self.show_apparent_temperature {
+                let (apparent_temp, apparent_temp_unit) =
+                    format_temperature(weather.apparent_temperature, self.units.temperature);
+                format!(" (~{:.1}{})", apparent_temp, apparent_temp_unit)
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
+
         self.cached_weather_info = if let Some(ref weather) = self.current_weather {
             let (temp, temp_unit) = format_temperature(weather.temperature, self.units.temperature);
             let (wind, wind_unit) = format_wind_speed(weather.wind_speed, self.units.wind_speed);
@@ -133,11 +148,12 @@ impl AppState {
             let offline_indicator = if self.is_offline { "OFFLINE | " } else { "" };
 
             format!(
-                "{}Weather: {} | Temp: {:.1}{} | Wind: {:.1}{} | Precip: {:.1}{}{} | Press 'q' to quit",
+                "{}Weather: {} | Temp: {:.1}{}{} | Wind: {:.1}{} | Precip: {:.1}{}{} | Press 'q' to quit",
                 offline_indicator,
                 self.get_condition_text(),
                 temp,
                 temp_unit,
+                apparent_temp_str,
                 wind,
                 wind_unit,
                 precip,
@@ -251,11 +267,12 @@ mod tests {
             wind_speed: WindSpeedUnit::Kmh,
             precipitation: PrecipitationUnit::Mm,
         };
-        let mut app = AppState::new(location, city, display, false, units);
+        let mut app = AppState::new(location, city, display, false, false, units);
 
         let weather = WeatherData {
             condition: WeatherCondition::Clear,
             temperature: 20.0,
+            apparent_temperature: 22.0,
             precipitation: 0.0,
             wind_speed: 10.0,
             wind_direction: 0.0,

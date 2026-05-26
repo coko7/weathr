@@ -59,6 +59,9 @@ pub struct Cli {
     #[arg(long, help = "Hide HUD (status line)")]
     pub hide_hud: bool,
 
+    #[arg(long, help = "Use apparent temperature alongside actual temperature")]
+    pub use_apparent_temperature: bool,
+
     #[arg(
         long,
         conflicts_with = "metric",

@@ -10,6 +10,7 @@ impl WeatherNormalizer {
         WeatherData {
             condition,
             temperature: response.temperature,
+            apparent_temperature: response.apparent_temperature,
             precipitation: response.precipitation,
             wind_speed: response.wind_speed,
             wind_direction: response.wind_direction,
@@ -97,6 +98,7 @@ mod tests {
         let response = WeatherProviderResponse {
             weather_code: 61,
             temperature: 20.5,
+            apparent_temperature: 22.5,
             precipitation: 2.5,
             wind_speed: 15.0,
             wind_direction: 180.0,
