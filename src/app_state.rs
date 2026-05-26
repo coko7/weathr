@@ -421,4 +421,67 @@ mod tests {
         );
         assert!(!app.cached_weather_info.contains("("));
     }
+
+    fn make_app_with_apparent_temp(show: bool, temp_unit: TemperatureUnit) -> AppState {
+        let location = WeatherLocation {
+            latitude: 0.0,
+            longitude: 0.0,
+            elevation: None,
+        };
+        let units = WeatherUnits {
+            temperature: temp_unit,
+            wind_speed: WindSpeedUnit::Kmh,
+            precipitation: PrecipitationUnit::Mm,
+        };
+        let mut app = AppState::new(location, None, LocationDisplay::Coordinates, true, show, units);
+        let weather = WeatherData {
+            condition: WeatherCondition::Clear,
+            temperature: 20.0,
+            apparent_temperature: 22.0,
+            precipitation: 0.0,
+            wind_speed: 10.0,
+            wind_direction: 0.0,
+            moon_phase: Some(0.5),
+            timestamp: "2024-01-01T12:00:00Z".to_string(),
+            attribution: "".to_string(),
+            sun: CelestialEvents::from_bool(true),
+        };
+        app.update_weather(weather);
+        app
+    }
+
+    #[test]
+    fn test_apparent_temperature_shown_in_celsius() {
+        let mut app = make_app_with_apparent_temp(true, TemperatureUnit::Celsius);
+        app.update_cached_info();
+        // apparent_temperature is 22.0°C — expect "(~22.0°C)" in the HUD
+        assert!(
+            app.cached_weather_info.contains("(~22.0°C)"),
+            "expected '(~22.0°C)' in: {}",
+            app.cached_weather_info
+        );
+    }
+
+    #[test]
+    fn test_apparent_temperature_hidden_when_disabled() {
+        let mut app = make_app_with_apparent_temp(false, TemperatureUnit::Celsius);
+        app.update_cached_info();
+        assert!(
+            !app.cached_weather_info.contains("(~"),
+            "expected no apparent-temp marker in: {}",
+            app.cached_weather_info
+        );
+    }
+
+    #[test]
+    fn test_apparent_temperature_converted_to_fahrenheit() {
+        let mut app = make_app_with_apparent_temp(true, TemperatureUnit::Fahrenheit);
+        app.update_cached_info();
+        // 22.0°C → 22.0 * 9/5 + 32 = 71.6°F
+        assert!(
+            app.cached_weather_info.contains("(~71.6°F)"),
+            "expected '(~71.6°F)' in: {}",
+            app.cached_weather_info
+        );
+    }
 }

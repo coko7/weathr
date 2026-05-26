@@ -113,6 +113,7 @@ fn test_weather_normalizer_integration_clear_conditions() {
 
     assert_eq!(weather.condition, WeatherCondition::Clear);
     assert_eq!(weather.temperature, 22.5);
+    assert_eq!(weather.apparent_temperature, 24.0);
     assert_eq!(weather.precipitation, 0.0);
     assert!(weather.sun.is_day);
 }
@@ -135,6 +136,7 @@ fn test_weather_normalizer_integration_rainy_conditions() {
     let weather = WeatherNormalizer::normalize(response);
 
     assert_eq!(weather.condition, WeatherCondition::Rain);
+    assert_eq!(weather.apparent_temperature, 17.0);
     assert_eq!(weather.precipitation, 5.2);
 }
 
@@ -156,6 +158,7 @@ fn test_weather_normalizer_integration_snowy_conditions() {
     let weather = WeatherNormalizer::normalize(response);
 
     assert_eq!(weather.condition, WeatherCondition::Snow);
+    assert_eq!(weather.apparent_temperature, -1.0);
     assert!(weather.temperature < 0.0);
     assert!(!weather.sun.is_day);
 }
